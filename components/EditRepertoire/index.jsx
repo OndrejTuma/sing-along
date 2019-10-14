@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {useGlobal} from 'reactn';
 import classNames from 'classnames';
 
@@ -15,16 +15,26 @@ import styles from './styles.scss';
 function EditRepertoire() {
     const [currentRepertoireId, setEditingRepertoireId] = useGlobal('editingRepertoireId');
     const [repertoires] = useGlobalMap('repertoires');
-    const [sections] = useGlobalMap('sections');
+    const [sections, , , , setSections] = useGlobalMap('sections');
     const [visibility, addVisibility, removeVisibility] = useGlobalMap('visibility');
 
     const addSectionVisible = visibility.has(ADD_SECTION);
+
+    const currentSections = [...sections.values()].filter(section => section.belongsTo === currentRepertoireId).sort(function(a, b){
+        if(a.position < b.position) { return -1; }
+        if(a.position > b.position) { return 1; }
+        return 0;
+    });
 
     function handleAddSectionVisibility(visibility) {
         visibility
             ? addVisibility(ADD_SECTION, true)
             : removeVisibility(ADD_SECTION);
     }
+
+    useEffect(() => {
+        self.scrollTo(0, 0);
+    }, [currentRepertoireId]);
 
     return (
         <div className={styles.repertoire}>
@@ -39,7 +49,27 @@ function EditRepertoire() {
             />
             {addSectionVisible && <FormNewSection/>}
             <ListSections
-                sections={[...sections.values()].filter(section => section.belongsTo === currentRepertoireId)}
+                sections={currentSections}
+                onDrop={(fromId, toId) => {
+                    const fromPosition = currentSections.find(({_id}) => _id === fromId).position;
+                    const toPosition = currentSections.find(({_id}) => _id === toId).position;
+
+                    const newSections = currentSections.map(section => {
+                        if (section._id === fromId) {
+                            section.position = toPosition;
+                        } else if (section._id === toId) {
+                            section.position = fromPosition;
+                        }
+
+                        return section;
+                    }).sort(function(a, b){
+                        if(a.position < b.position) { return -1; }
+                        if(a.position > b.position) { return 1; }
+                        return 0;
+                    });
+
+                    setSections(new Map(newSections.map(section => [section._id, section])));
+                }}
             />
         </div>
     )

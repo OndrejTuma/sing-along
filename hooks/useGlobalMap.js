@@ -17,7 +17,11 @@ function useGlobalMap(name) {
         setMap(map);
     }
 
-    return [map, addItem, deleteItem, deleteAllItems];
+    function setAllItems(items) {
+        setMap(items);
+    }
+
+    return [map, addItem, deleteItem, deleteAllItems, setAllItems];
 }
 
 export default useGlobalMap;
