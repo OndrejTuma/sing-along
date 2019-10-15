@@ -26,11 +26,12 @@ export function createRepertoir(title) {
         title,
     });
 }
-export function createSection(title, songs, repertoireId) {
+export function createSection(title, songs, repertoireId, position = 0) {
     return apiFetch(SECTION_CREATE_URL, 'POST', {
         title,
         songs,
         repertoireId,
+        position,
     });
 }
 export function createSong(title, text) {

@@ -180,6 +180,7 @@ app.prepare()
                     belongsTo: req.body.repertoireId,
                     title: req.body.title,
                     songs: req.body.songs,
+                    position: req.body.position,
                 });
 
                 await newSection.save();
