@@ -51,22 +51,34 @@ function EditRepertoire() {
             <ListSections
                 sections={currentSections}
                 onDrop={(fromId, toId) => {
-                    const fromPosition = currentSections.find(({_id}) => _id === fromId).position;
-                    const toPosition = currentSections.find(({_id}) => _id === toId).position;
+                    const from = {
+                        position: 0,
+                        index: -1,
+                    };
+                    const to = {...from};
 
-                    const newSections = currentSections.map(section => {
-                        if (section._id === fromId) {
-                            section.position = toPosition;
-                        } else if (section._id === toId) {
-                            section.position = fromPosition;
-                        }
-
-                        return section;
-                    }).sort(function(a, b){
-                        if(a.position < b.position) { return -1; }
-                        if(a.position > b.position) { return 1; }
-                        return 0;
+                    currentSections.forEach(({_id: id, position}, index) => {
+                        id === fromId && Object.assign(from, {position, index});
+                        id === toId && Object.assign(to, {position, index});
                     });
+
+                    const newSections = [];
+                    let isInRange = false;
+                    for (let i = 0; i < currentSections.length; i++) {
+                        isInRange = (i >= from.index && i <= to.index) || (i >= to.index && i <= from.index);
+
+                        if (isInRange) {
+                            if (i === from.index && to.index < from.index) {
+                                newSections.push({...currentSections[i], position: to.position});
+                            } else if (i === to.index && to.index > from.index) {
+                                newSections.push({...currentSections[i], position: from.position});
+                            } else {
+                                newSections.push({...currentSections[i], position: currentSections[i + 1].position})
+                            }
+                        } else {
+                            newSections.push(currentSections[i]);
+                        }
+                    }
 
                     setSections(new Map(newSections.map(section => [section._id, section])));
                 }}
