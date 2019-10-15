@@ -1,4 +1,5 @@
 import React, {useState} from 'react';
+import classNames from 'classnames';
 import {useDrag, useDrop} from 'react-dnd-cjs';
 
 import BinSVG from 'Svg/bin.svg';
@@ -47,7 +48,9 @@ function Section({onDrop, section, songs}) {
 
     return (
         <div className={styles.wrapper} ref={dropRef} style={{opacity}}>
-            <h4 ref={dragRef} onClick={() => setIsOpen(!isOpen)} style={{borderTop: isOver ? '1px solid' : 'none'}}>
+            <h4 ref={dragRef} onClick={() => setIsOpen(!isOpen)} className={classNames(styles.heading, {
+                [styles.dragOver]: isOver,
+            })}>
                 {section.title}
                 <small> ({songs.length} {inflectString(songs.length, ['písnička', 'písničky', 'písniček'])})</small>
             </h4>

@@ -1,5 +1,12 @@
 @import "~Sass/helpers.scss";
 
+.heading {
+    cursor: pointer;
+
+    &.dragOver {
+        color: $mountain-meadow;
+    }
+}
 .removeIcon {
     cursor: pointer;
     fill: $wild-strawberry;
@@ -10,8 +17,4 @@
 }
 .wrapper {
     position: relative;
-
-    h4 {
-        cursor: pointer;
-    }
 }
