@@ -27,6 +27,8 @@
     "mongoose": "^5.3.15",
     "next": "^7.0.2",
     "react": "^16.7.0-alpha.2",
+    "react-dnd-cjs": "^9.4.0",
+    "react-dnd-html5-backend-cjs": "^9.4.0",
     "react-dom": "^16.7.0-alpha.2",
     "react-draft-wysiwyg": "^1.12.13",
     "reactn": "^0.1.8"
