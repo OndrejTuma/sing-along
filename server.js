@@ -206,10 +206,21 @@ app.prepare()
         });
         server.post('/admin/section/fetch/:repertoireId', async (req, res) => {
             try {
-                const sections = await Section.find({belongsTo: req.params.repertoireId})
+                const sections = await Section.find({belongsTo: req.params.repertoireId});
 
                 res.status(200).json({
                     sections: sections,
+                });
+            } catch (e) {
+                res.status(500).json(e);
+            }
+        });
+        server.post('/admin/section/update', async (req, res) => {
+            try {
+                await Section.updateOne({_id: req.body.id}, {$set: req.body.data});
+
+                res.status(200).json({
+                    success: true,
                 });
             } catch (e) {
                 res.status(500).json(e);

@@ -6,8 +6,9 @@ import ListSections from '../ListSections';
 import PlusSVG from '../../static/svg/plus.svg';
 import FormNewSection from '../FormNewSection';
 
-import {ADD_SECTION} from '../../consts/visibility';
-import useGlobalMap from '../../hooks/useGlobalMap';
+import {updateSection} from 'Api/client';
+import {ADD_SECTION} from 'Consts/visibility';
+import useGlobalMap from 'Hooks/useGlobalMap';
 
 import globalStyles from 'Sass/global.scss';
 import styles from './styles.scss';
@@ -56,12 +57,15 @@ function EditRepertoire() {
             if (isInRange) {
                 if (to.index < from.index && i === from.index) {
                     newSections.push({...currentSections[i], position: to.position});
+                    updateSection(currentSections[i]._id, {position: to.position});
                 } else if (to.index > from.index && i === from.index) {
                     newSections.push({...currentSections[i], position: to.position});
+                    updateSection(currentSections[i]._id, {position: to.position});
                 } else {
                     const swapSection = to.index < from.index ? currentSections[i + 1] : currentSections[i - 1];
 
-                    newSections.push({...currentSections[i], position: swapSection.position})
+                    newSections.push({...currentSections[i], position: swapSection.position});
+                    updateSection(currentSections[i]._id, {position: swapSection.position});
                 }
             } else {
                 newSections.push(currentSections[i]);

@@ -11,6 +11,7 @@ import {
     SECTION_CREATE_URL,
     SECTION_DELETE_URL,
     SECTION_FETCH_URL,
+    SECTION_UPDATE_URL,
     SONG_CREATE_URL,
     SONG_DELETE_URL,
     SONG_FETCH_ALL_URL,
@@ -84,6 +85,12 @@ export function setActiveRepertoire(id) {
     return apiFetch(REPERTOIRE_SET_ACTIVE_URL, 'POST', {
         id,
     });
+}
+export function updateSection(id, data) {
+    return apiFetch(SECTION_UPDATE_URL, 'POST', {
+        id,
+        data,
+    })
 }
 export function updateSong(id, data) {
     return apiFetch(SONG_UPDATE_URL, 'POST', {
