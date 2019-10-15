@@ -31,6 +31,45 @@ function EditRepertoire() {
             ? addVisibility(ADD_SECTION, true)
             : removeVisibility(ADD_SECTION);
     }
+    function handleOnDrop(fromId, toId) {
+        const from = {position: 0, index: -1};
+        const to = {...from};
+
+        currentSections.forEach(({_id: id, position}, index) => {
+            id === fromId && Object.assign(from, {position, index});
+            id === toId && Object.assign(to, {position, index});
+        });
+
+        if (from.index === to.index) {
+            return;
+        }
+
+        const startIndex = from.index < to.index ? from.index : to.index;
+        const endIndex = from.index < to.index ? to.index : from.index;
+
+        const newSections = [];
+        let isInRange = false;
+
+        for (let i = 0; i < currentSections.length; i++) {
+            isInRange = i >= startIndex && i <= endIndex;
+
+            if (isInRange) {
+                if (to.index < from.index && i === from.index) {
+                    newSections.push({...currentSections[i], position: to.position});
+                } else if (to.index > from.index && i === from.index) {
+                    newSections.push({...currentSections[i], position: to.position});
+                } else {
+                    const swapSection = to.index < from.index ? currentSections[i + 1] : currentSections[i - 1];
+
+                    newSections.push({...currentSections[i], position: swapSection.position})
+                }
+            } else {
+                newSections.push(currentSections[i]);
+            }
+        }
+
+        setSections(new Map(newSections.map(section => [section._id, section])));
+    }
 
     useEffect(() => {
         self.scrollTo(0, 0);
@@ -50,38 +89,7 @@ function EditRepertoire() {
             {addSectionVisible && <FormNewSection/>}
             <ListSections
                 sections={currentSections}
-                onDrop={(fromId, toId) => {
-                    const from = {
-                        position: 0,
-                        index: -1,
-                    };
-                    const to = {...from};
-
-                    currentSections.forEach(({_id: id, position}, index) => {
-                        id === fromId && Object.assign(from, {position, index});
-                        id === toId && Object.assign(to, {position, index});
-                    });
-
-                    const newSections = [];
-                    let isInRange = false;
-                    for (let i = 0; i < currentSections.length; i++) {
-                        isInRange = (i >= from.index && i <= to.index) || (i >= to.index && i <= from.index);
-
-                        if (isInRange) {
-                            if (i === from.index && to.index < from.index) {
-                                newSections.push({...currentSections[i], position: to.position});
-                            } else if (i === to.index && to.index > from.index) {
-                                newSections.push({...currentSections[i], position: from.position});
-                            } else {
-                                newSections.push({...currentSections[i], position: currentSections[i + 1].position})
-                            }
-                        } else {
-                            newSections.push(currentSections[i]);
-                        }
-                    }
-
-                    setSections(new Map(newSections.map(section => [section._id, section])));
-                }}
+                onDrop={handleOnDrop}
             />
         </div>
     )
