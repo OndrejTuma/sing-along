@@ -758,6 +758,13 @@
   resolved "https://registry.yarnpkg.com/@nodelib/fs.stat/-/fs.stat-1.1.3.tgz#2b5a3ab3f918cca48a8c754c08168e3f03eba61b"
   integrity sha512-shAmDyaQC4H92APFoIaVDHCx5bStIocgvbwQyxPRrbUY20V1EYTbSDchWbuwlMG3V17cprZhA6+78JfB+3DTPw==
 
+"@rootre/forms-dropdown@^1.2.3":
+  version "1.2.3"
+  resolved "https://registry.yarnpkg.com/@rootre/forms-dropdown/-/forms-dropdown-1.2.3.tgz#462f8c22f52cd428f72aa246ca2321417f2a688a"
+  integrity sha512-ORKF1hnZ65Y047hfsXEJPoa67aHpt3bTKcScArQBhV7lKCVepPWsmPnuak1KFL1aa4exbvm2xnwD/Bp6amKb0w==
+  dependencies:
+    classnames "^2.2.6"
+
 "@types/asap@^2.0.0":
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/@types/asap/-/asap-2.0.0.tgz#d529e9608c83499a62ae08c871c5e62271aa2963"
