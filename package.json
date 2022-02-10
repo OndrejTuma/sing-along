@@ -46,7 +46,7 @@
     "@zeit/next-sass": "^1.0.1",
     "babel-plugin-transform-class-properties": "^6.24.1",
     "cross-env": "^5.2.0",
-    "node-sass": "^4.13.1",
+    "node-sass": "^7.0.0",
     "react-svg-loader": "^2.1.0"
   }
 }
